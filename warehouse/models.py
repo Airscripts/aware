@@ -4,14 +4,44 @@ from django.conf import settings
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
+# Declaring: Choices.
+
+CYLINDERS_CHOICES = [
+  ('900', '900'),
+  ('1000', '1000'),
+  ('1200', '1200'),
+  ('1300', '1300'),
+  ('1500', '1500'),
+  ('1600', '1600'),
+  ('2000', '2000'),
+]
+
 # Declaring: Models.
+
+# Declaring Filter Model.
+class Filter(models.Model): 
+  id = models.AutoField(primary_key=True)
+  code = models.CharField(max_length=16, verbose_name="Codice")
+  typology = models.CharField(max_length=32, verbose_name="Tipologia", choices=[('air', 'Aria'), ('oil', 'Olio'), ('passenger', 'Abitacolo'), ('diesel', 'Gasolio'), ('gas', 'Gas')])
+  quantity = models.PositiveIntegerField(default=0, verbose_name="Quantita'")
+
+  def __str__(self):
+    # pylint: disable=E1101
+    return 'Filtro: ' + self.code + " " + self.get_typology_display()
+  
+  class Meta:
+    verbose_name = _("Filtro")
+    verbose_name_plural = _("Filtri")
 
 # Declaring Car Model.
 class Car(models.Model):
+  id = models.AutoField(primary_key=True)
   make = models.CharField(max_length=100, verbose_name="Produttore")
   model = models.CharField(max_length=100, verbose_name="Modello")
   year = models.CharField(max_length=4, verbose_name="Anno")
   engine = models.CharField(max_length=10, choices=[('petrol', 'Benzina'), ('diesel', 'Diesel')], default="petrol", verbose_name="Motore")
+  cylinders = models.CharField(choices=CYLINDERS_CHOICES, verbose_name="Cilindrata", max_length=16)
+  filters = models.ManyToManyField(Filter, verbose_name="Filtri")
 
   def __str__(self):
     # pylint: disable=E1101
@@ -21,17 +51,3 @@ class Car(models.Model):
     verbose_name = _("Auto")
     verbose_name_plural = _("Auto")
     unique_together = ("make", "model", "engine")
-
-# Declaring Filter Model.
-class Filter(models.Model): 
-  code = models.CharField(max_length=16, verbose_name="Codice")
-  typology = models.CharField(max_length=100, verbose_name="Tipologia")
-  quantity = models.PositiveIntegerField(default=0, verbose_name="Quantita'")
-  car = models.ForeignKey(Car, verbose_name="Auto", on_delete=models.CASCADE, blank=True, null=True)
-
-  def __str__(self):
-   return 'Filtro: ' + self.code + " " + self.typology
-  
-  class Meta:
-    verbose_name = _("Filtro")
-    verbose_name_plural = _("Filtri")

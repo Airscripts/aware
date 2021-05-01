@@ -1,5 +1,7 @@
 # Importing: Dependencies.
+from django import forms
 from django.contrib import admin
+from django.utils.html import format_html
 
 # Importing: Models.
 from .models import Car
@@ -7,7 +9,11 @@ from .models import Filter
 
 # Admin Class for Model Car.
 class CarAdmin(admin.ModelAdmin):
-    list_display = ('make','model','year', 'engine')
+    def azioni(self, obj):
+        print(obj.id)
+        return format_html('<a class="btn" href="/cars/%s">Apri</a>' % obj.id, obj)
+
+    list_display = ('make','model','year', 'engine', 'azioni')
     search_fields = ['model']
 
 # Admin Class for Model Filter.
