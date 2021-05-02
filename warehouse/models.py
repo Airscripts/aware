@@ -24,10 +24,11 @@ class Filter(models.Model):
   code = models.CharField(max_length=16, verbose_name="Codice")
   typology = models.CharField(max_length=32, verbose_name="Tipologia", choices=[('air', 'Aria'), ('oil', 'Olio'), ('passenger', 'Abitacolo'), ('diesel', 'Gasolio'), ('gas', 'Gas')])
   quantity = models.PositiveIntegerField(default=0, verbose_name="Quantita'")
+  cars = models.ManyToManyField("Car", through="CarFilter", verbose_name="Auto")
 
   def __str__(self):
     # pylint: disable=E1101
-    return 'Filtro: ' + self.code + " " + self.get_typology_display()
+    return self.code + " " + self.get_typology_display()
   
   class Meta:
     verbose_name = _("Filtro")
@@ -41,7 +42,7 @@ class Car(models.Model):
   year = models.CharField(max_length=4, verbose_name="Anno")
   engine = models.CharField(max_length=10, choices=[('petrol', 'Benzina'), ('diesel', 'Diesel')], default="petrol", verbose_name="Motore")
   cylinders = models.CharField(choices=CYLINDERS_CHOICES, verbose_name="Cilindrata", max_length=16)
-  filters = models.ManyToManyField(Filter, verbose_name="Filtri")
+  filters = models.ManyToManyField("Filter", through="CarFilter" , verbose_name="Filtri")
 
   def __str__(self):
     # pylint: disable=E1101
@@ -51,3 +52,7 @@ class Car(models.Model):
     verbose_name = _("Auto")
     verbose_name_plural = _("Auto")
     unique_together = ("make", "model", "engine")
+
+class CarFilter(models.Model):
+  car = models.ForeignKey(Car, on_delete=models.CASCADE, verbose_name="Auto")
+  filter = models.ForeignKey(Filter, on_delete=models.CASCADE, verbose_name="Filtro")
