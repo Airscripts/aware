@@ -13,7 +13,14 @@ CYLINDERS_CHOICES = [
   ('1300', '1300'),
   ('1500', '1500'),
   ('1600', '1600'),
+  ('1700', '1700'),
+  ('1900', '1900'),
   ('2000', '2000'),
+]
+
+PRIMARY_CHOICES = [
+  ('Si', 'Si'),
+  ('No', 'No'),
 ]
 
 # Declaring: Models.
@@ -22,6 +29,7 @@ CYLINDERS_CHOICES = [
 class Filter(models.Model): 
   id = models.AutoField(primary_key=True)
   code = models.CharField(max_length=16, verbose_name="Codice")
+  primary = models.CharField(choices=PRIMARY_CHOICES, verbose_name="Primario", max_length=4, default="No")
   typology = models.CharField(max_length=32, verbose_name="Tipologia", choices=[('air', 'Aria'), ('oil', 'Olio'), ('passenger', 'Abitacolo'), ('diesel', 'Gasolio'), ('gas', 'Gas')])
   quantity = models.PositiveIntegerField(default=0, verbose_name="Quantita'")
   cars = models.ManyToManyField("Car", through="CarFilter", verbose_name="Auto")
@@ -42,6 +50,7 @@ class Car(models.Model):
   year = models.CharField(max_length=4, verbose_name="Anno")
   engine = models.CharField(max_length=10, choices=[('petrol', 'Benzina'), ('diesel', 'Diesel')], default="petrol", verbose_name="Motore")
   cylinders = models.CharField(choices=CYLINDERS_CHOICES, verbose_name="Cilindrata", max_length=16)
+  oil_quantity = models.PositiveIntegerField(default=0, verbose_name="Quantita' Olio")
   filters = models.ManyToManyField("Filter", through="CarFilter" , verbose_name="Filtri")
 
   def __str__(self):
