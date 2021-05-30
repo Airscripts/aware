@@ -3,6 +3,7 @@ from django.db import models
 from django.conf import settings
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 # Declaring: Choices.
 
@@ -56,8 +57,8 @@ class Car(models.Model):
   year = models.CharField(max_length=4, verbose_name="Anno")
   engine = models.CharField(max_length=10, choices=[('petrol', 'Benzina'), ('diesel', 'Diesel')], default="petrol", verbose_name="Motore")
   cylinders = models.CharField(choices=CYLINDERS_CHOICES, verbose_name="Cilindrata", max_length=16)
-  oil_quantity = models.FloatField(default=0, verbose_name="Quantita' Olio")
-  # oil_specific = models.CharField(choices=OIL_SPECIFIC_CHOICES, verbose_name="Specifica Olio", max_length=16)
+  oil_quantity = models.FloatField(default=0, verbose_name="Quantita' Olio", validators=[MinValueValidator(0), MaxValueValidator(10000)])
+  oil_specific = models.CharField(choices=OIL_SPECIFIC_CHOICES, default="RN0710", verbose_name="Specifica Olio", max_length=16)
   filters = models.ManyToManyField("Filter", through="CarFilter" , verbose_name="Filtri")
 
   def __str__(self):

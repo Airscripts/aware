@@ -131,10 +131,15 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
-#location where django collect all static files
+
+# Location where django collect all static files
 STATIC_ROOT = os.path.join(BASE_DIR,'static')
-# location where you will store your static files
+# Location where you will store your static files
 STATICFILES_DIRS = [os.path.join(BASE_DIR,'project_name/static')]
 
+# Media folders.
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 MEDIA_URL = '/media/'
+
+# Django 3.2 setting default auto field.
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
