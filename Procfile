@@ -1,0 +1,1 @@
+web: gunicorn morazyne.wsgi --log-file -
