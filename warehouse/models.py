@@ -23,6 +23,12 @@ PRIMARY_CHOICES = [
   ('No', 'No'),
 ]
 
+OIL_SPECIFIC_CHOICES = [
+  ('RN0710', 'RN0710'),
+  ('RN0720', 'RN0720'),
+  ('RN17', 'RN17'),
+]
+
 # Declaring: Models.
 
 # Declaring Filter Model.
@@ -50,7 +56,8 @@ class Car(models.Model):
   year = models.CharField(max_length=4, verbose_name="Anno")
   engine = models.CharField(max_length=10, choices=[('petrol', 'Benzina'), ('diesel', 'Diesel')], default="petrol", verbose_name="Motore")
   cylinders = models.CharField(choices=CYLINDERS_CHOICES, verbose_name="Cilindrata", max_length=16)
-  oil_quantity = models.PositiveIntegerField(default=0, verbose_name="Quantita' Olio")
+  oil_quantity = models.FloatField(default=0, verbose_name="Quantita' Olio")
+  # oil_specific = models.CharField(choices=OIL_SPECIFIC_CHOICES, verbose_name="Specifica Olio", max_length=16)
   filters = models.ManyToManyField("Filter", through="CarFilter" , verbose_name="Filtri")
 
   def __str__(self):
