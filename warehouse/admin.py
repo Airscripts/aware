@@ -72,6 +72,6 @@ class FilterAdmin(admin.ModelAdmin):
 admin.site.register(Car, CarAdmin)
 admin.site.register(Filter, FilterAdmin)
 
-admin.site.site_title = "Morazyne"
-admin.site.site_header = "Morazyne"
+admin.site.site_title = "Aware"
+admin.site.site_header = "Aware"
 admin.site.index_title = "Dashboard"

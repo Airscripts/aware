@@ -3,9 +3,9 @@ import dj_database_url
 from pathlib import Path
 
 DEBUG = True
-ROOT_URLCONF = "morazyne.urls"
+ROOT_URLCONF = "aware.urls"
 DATABASES["default"].update(db_from_env)
-WSGI_APPLICATION = "morazyne.wsgi.application"
+WSGI_APPLICATION = "aware.wsgi.application"
 BASE_DIR = Path(__file__).resolve().parent.parent
 ALLOWED_HOSTS = ["0.0.0.0", "localhost", "127.0.0.1"]
 SECRET_KEY = "1q*dv&q1@$g13ng-dfucs-%zzg$on!3uqww*(w9!h8!&-n4f(#"
