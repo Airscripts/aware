@@ -20,7 +20,5 @@ Choose what you find more suitable for you:
 - [Support me via ko-fi](https://ko-fi.com/airscript)
 - [Support me via linktr.ee](https://linktr.ee/airscript)
 
-Thank you so much, it means a lot for me!
-
 ## 💳 License
 This repository is licensed under [GPL-3.0 License](https://github.com/airchive/aware/blob/main/LICENSE).
